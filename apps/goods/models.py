@@ -66,7 +66,7 @@ class Goods(BaseModel):
     market_price = models.FloatField(default=0, verbose_name='市场价格')
     shop_price = models.FloatField(default=0, verbose_name='本店价格')
     goods_brief = models.TextField(max_length=500, verbose_name='商品简短描述')
-    goods_desc = UEditorField(default='', width=600, height=300, imagePath='goods/images/',
+    goods_desc = UEditorField(default='', width=1000, height=300, imagePath='goods/images/',
                               filePath='goods/files/', verbose_name='商品详情')
     ship_free = models.BooleanField(default=True, verbose_name='是否承担运费')
     # 首页中展示的商品封面图
@@ -118,3 +118,33 @@ class Banner(BaseModel):
 
     def __str__(self):
         return self.goods.name
+
+
+class IndexAd(BaseModel):
+    """
+    首页类别标签右边展示的七个商品广告
+    """
+    category = models.ForeignKey(GoodsCategory, on_delete=models.CASCADE, verbose_name='商品类别',
+                                 related_name='category')
+    goods = models.ForeignKey(Goods, on_delete=models.CASCADE, verbose_name='商品', related_name='goods')
+
+    class Meta:
+        verbose_name = '首页广告'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.goods.name
+
+
+class HotSearchWords(BaseModel):
+    """
+    搜索栏下方的搜索热词
+    """
+    keywords = models.CharField(max_length=20, default='', verbose_name='热搜词')
+
+    class Meta:
+        verbose_name = '热搜排行'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.keywords
