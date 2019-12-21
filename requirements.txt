@@ -5,3 +5,4 @@ mysqlclient
 pillow
 coreapi
 django-guardian
+django-cors-headers

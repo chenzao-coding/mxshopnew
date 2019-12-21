@@ -21,7 +21,7 @@ from rest_framework.routers import DefaultRouter
 
 from mxshopnew.settings import MEDIA_ROOT
 import xadmin
-from goods.views import GoodsListViewSet
+from goods.views import GoodsListViewSet, GoodsCategoryViewSet
 # from goods.views_base import GoodsListView
 # from goods.views import GoodsListView2
 
@@ -30,6 +30,7 @@ router = DefaultRouter()
 # AssertionError: basename argument not specified, and could not automatical
 # 如果 views 中没有定义 queryset 字段时，在路由注册的时候必须加上 basename
 router.register(r'goods', GoodsListViewSet, basename='goods')
+router.register(r'categories', GoodsCategoryViewSet)
 
 urlpatterns = [
     # path('admin/', admin.site.urls),

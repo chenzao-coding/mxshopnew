@@ -8,8 +8,8 @@ from rest_framework import viewsets
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
 
-from .models import Goods
-from .serializers import GoodsSerializer
+from .models import Goods, GoodsCategory
+from .serializers import GoodsSerializer, CategorySerializer
 from .filters import GoodsFilter
 
 
@@ -33,10 +33,10 @@ class GoodsResultsSetPagination(PageNumberPagination):
     """
     自定义分页参数
     """
-    page_size = 5
-    page_size_query_param = 's'
-    page_query_param = 'p'
-    max_page_size = 5
+    page_size = 12
+    page_size_query_param = 'size'
+    page_query_param = 'page'
+    max_page_size = 20
 
 
 class GoodsListView22(mixins.ListModelMixin, generics.GenericAPIView):
@@ -74,7 +74,7 @@ path('', include(router.urls)),
 
 
 """
-class GoodsListViewSet2(mixins.ListModelMixin, viewsets.GenericViewSet):
+class GoodsListViewSet22(mixins.ListModelMixin, viewsets.GenericViewSet):
     # queryset = Goods.objects.all().order_by('add_time')
     serializer_class = GoodsSerializer
     pagination_class = GoodsResultsSetPagination
@@ -89,7 +89,7 @@ class GoodsListViewSet2(mixins.ListModelMixin, viewsets.GenericViewSet):
         return queryset
 
 
-class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+class GoodsListViewSet (mixins.ListModelMixin, viewsets.GenericViewSet):
     queryset = Goods.objects.all().order_by('add_time')
     serializer_class = GoodsSerializer
     pagination_class = GoodsResultsSetPagination
@@ -100,4 +100,14 @@ class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     filterset_class = GoodsFilter
     # 支持：^ 表示必须以xx开始；= 表示完全相等；@ 表示全文搜索；$ 表示正则表达式搜索
     search_fields = ['name', 'goods_brief', 'goods_desc']
-    ordering_fields = ['add_time', 'sold_num', 'click_num']
+    ordering_fields = ['sold_num', 'shop_price']
+
+
+class GoodsCategoryViewSet (mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    """
+    list:
+        获取商品列表
+    """
+    queryset = GoodsCategory.objects.filter(category_type=1)
+    serializer_class = CategorySerializer
+    pagination_class = None

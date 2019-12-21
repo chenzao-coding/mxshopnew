@@ -36,7 +36,7 @@ for lev1_cat in row_data:
         lev2_instance.parent_category = lev1_instance
         lev2_instance.save()
 
-        for lev3_cat in lev1_cat['sub_categorys']:
+        for lev3_cat in lev2_cat['sub_categorys']:
             lev3_instance = GoodsCategory()
             lev3_instance.code = lev3_cat['code']
             lev3_instance.name = lev3_cat['name']
