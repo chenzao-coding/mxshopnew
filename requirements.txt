@@ -3,3 +3,5 @@ markdown
 django-filter
 mysqlclient
 pillow
+coreapi
+django-guardian

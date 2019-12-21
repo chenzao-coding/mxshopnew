@@ -14,18 +14,34 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 # from django.contrib import admin
-from django.conf.urls import url
-from django.urls import path
+from django.conf.urls import url, include
 from django.views.static import serve
+from rest_framework.documentation import include_docs_urls
+from rest_framework.routers import DefaultRouter
 
 from mxshopnew.settings import MEDIA_ROOT
 import xadmin
-from goods.views_base import GoodsListView
+from goods.views import GoodsListViewSet
+# from goods.views_base import GoodsListView
+# from goods.views import GoodsListView2
 
+router = DefaultRouter()
+# 注册商品 router
+# AssertionError: basename argument not specified, and could not automatical
+# 如果 views 中没有定义 queryset 字段时，在路由注册的时候必须加上 basename
+router.register(r'goods', GoodsListViewSet, basename='goods')
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
     url(r'^xadmin/', xadmin.site.urls),
     url(r'media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}),
-    url(r'goods/$', GoodsListView.as_view(), name='goods-list'),
+    # coreapi 文档功能
+    url(r'docs/', include_docs_urls(title='学习文档')),
+    # 调试 api 的登录 url
+    url(r'^api-auth/', include('rest_framework.urls')),
+    # 使用 router 来配置 各模块 url
+    url(r'^', include(router.urls)),
+
+    # 商品列表页
+    # url(r'goods/$', GoodsListView2.as_view(), name='goods-list'),
 ]

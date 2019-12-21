@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'DjangoUeditor',
     'crispy_forms',
     'xadmin',
+    'rest_framework',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -144,3 +146,9 @@ STATIC_URL = '/static/'
 # 配置media文件路径
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# restframework 配置
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 10
+}
