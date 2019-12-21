@@ -197,3 +197,8 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
+
+# 验证手机号码的正则表达式
+REGEX_MOBILE = '^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(17[0,3,5-8])|(18[0-9])|166|198|199|(147))\d{8}$'
+# 云片网 APIKEY
+YUNPIAN_APIKEY = 'd6c4ddbf50ab36611d2f52041a0b949e'

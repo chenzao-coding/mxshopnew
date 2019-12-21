@@ -27,7 +27,7 @@ class UserProfile(AbstractUser):
     """
     # 因为用户注册的时候，没有机会填写 name 所以此处可以为 null
     name = models.CharField(max_length=30, null=True, blank=True, verbose_name='姓名')
-    mobile = models.CharField(max_length=11, verbose_name='手机号')
+    mobile = models.CharField(max_length=11, null=True, blank=True, verbose_name='手机号')
     birthday = models.DateField(null=True, blank=True, verbose_name='出生年月日')
     gender = models.CharField(max_length=6, choices=GENDER_CHOICES, default='female', verbose_name='性别')
     email = models.EmailField(max_length=50, null=True, blank=True, verbose_name='邮箱')
