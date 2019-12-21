@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'corsheaders',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -152,6 +153,15 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # restframework 配置
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        # 这里的 sessionAuth 其实还是依赖 django 的  AuthenticationMiddleware 和 SessionMiddleware
+        # 看 SessionAuthentication 源码会发现，其实只是多一个从 request 取出 user 的操作，剩下的还是依赖 middleware
+        # 此处的这两个 auth 认证主要是为了 api 文档的登录认证；session 最常用的是在浏览器中，因为浏览器会自动设置 cookie
+        # 并将它的 cookie 和 session 带到服务器，因此前后端分离的系统中使用 session 是很少见的
+        'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.TokenAuthentication'
+    ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10
 }

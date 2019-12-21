@@ -6,6 +6,7 @@ from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
 from rest_framework import filters
+from rest_framework.authentication import TokenAuthentication
 from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Goods, GoodsCategory
@@ -111,3 +112,4 @@ class GoodsCategoryViewSet (mixins.ListModelMixin, mixins.RetrieveModelMixin, vi
     queryset = GoodsCategory.objects.filter(category_type=1)
     serializer_class = CategorySerializer
     pagination_class = None
+    authentication_classes = (TokenAuthentication, )

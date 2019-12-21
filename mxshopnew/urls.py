@@ -18,6 +18,7 @@ from django.conf.urls import url, include
 from django.views.static import serve
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
+from rest_framework.authtoken import views
 
 from mxshopnew.settings import MEDIA_ROOT
 import xadmin
@@ -42,6 +43,9 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls')),
     # 使用 router 来配置 各模块 url
     url(r'^', include(router.urls)),
+
+    # 用户登录，返回 token
+    url(r'^api-token-auth/', views.obtain_auth_token),
 
     # 商品列表页
     # url(r'goods/$', GoodsListView2.as_view(), name='goods-list'),
