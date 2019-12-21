@@ -15,10 +15,12 @@ Including another URLconf
 """
 # from django.contrib import admin
 from django.conf.urls import url, include
+from django.urls import path
 from django.views.static import serve
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from mxshopnew.settings import MEDIA_ROOT
 import xadmin
@@ -44,9 +46,13 @@ urlpatterns = [
     # 使用 router 来配置 各模块 url
     url(r'^', include(router.urls)),
 
-    # 用户登录，返回 token
-    url(r'^api-token-auth/', views.obtain_auth_token),
+    # JWT 认证
+    # 由于这里的登录默认是使用 username 来登录的，如果需要手机号也能登录需要自定义
+    path('login/', TokenObtainPairView.as_view(), name='login'),
+    path('login/refresh/', TokenRefreshView.as_view(), name='login_refresh'),
 
+    # DRF token 认证
+    # url(r'^api-token-auth/', views.obtain_auth_token),
     # 商品列表页
     # url(r'goods/$', GoodsListView2.as_view(), name='goods-list'),
 ]

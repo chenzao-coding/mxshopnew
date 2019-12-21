@@ -6,3 +6,4 @@ pillow
 coreapi
 django-guardian
 django-cors-headers
+djangorestframework_simplejwt
