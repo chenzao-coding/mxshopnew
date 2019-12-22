@@ -3,7 +3,7 @@
 # @time: 2019-12-20 21:04
 # Desc: 
 from rest_framework import serializers
-from .models import Goods, GoodsCategory
+from .models import Goods, GoodsCategory, GoodsImage
 
 
 class GoodsSerializer2(serializers.Serializer):
@@ -41,9 +41,16 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class GoodsImagesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GoodsImage
+        fields = ['image']
+
+
 class GoodsSerializer(serializers.ModelSerializer):
     # serializer 的嵌套
     category = CategorySerializer()
+    images = GoodsImagesSerializer(many=True)
 
     class Meta:
         model = Goods

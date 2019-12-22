@@ -90,7 +90,7 @@ class GoodsListViewSet22(mixins.ListModelMixin, viewsets.GenericViewSet):
         return queryset
 
 
-class GoodsListViewSet (mixins.ListModelMixin, viewsets.GenericViewSet):
+class GoodsListViewSet (mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     queryset = Goods.objects.all().order_by('add_time')
     serializer_class = GoodsSerializer
     pagination_class = GoodsResultsSetPagination
