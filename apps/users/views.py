@@ -64,7 +64,7 @@ class SmsCodeViewSet(CreateModelMixin, GenericViewSet):
 
 
 class UserViewSet(CreateModelMixin, UpdateModelMixin, RetrieveModelMixin, GenericViewSet):
-    serializer_class = UserMobileRegSerializer
+    # serializer_class = UserMobileRegSerializer
     queryset = User.objects.all()
     authentication_classes = (JWTTokenUserAuthentication, SessionAuthentication)
     permission_classes = (permissions.IsAuthenticated,)

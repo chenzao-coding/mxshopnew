@@ -5,6 +5,7 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 from .models import UserFav
+from goods.serializers import GoodsSerializer
 
 
 class UserFavSerializer(serializers.ModelSerializer):
@@ -18,3 +19,11 @@ class UserFavSerializer(serializers.ModelSerializer):
             UniqueTogetherValidator(queryset=UserFav.objects.all(), fields=['user', 'goods'], message='已经收藏过了')
         ]
         fields = ['user', 'goods', 'id']
+
+
+class UserFavDetailSerializer(serializers.ModelSerializer):
+    goods = GoodsSerializer()
+
+    class Meta:
+        model = UserFav
+        fields = ['goods', 'id']
