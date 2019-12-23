@@ -3,8 +3,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.authentication import SessionAuthentication
 
-from .models import UserFav
-from .serializers import UserFavSerializer, UserFavDetailSerializer
+from .models import UserFav, UserLeavingMessage
+from .serializers import UserFavSerializer, UserFavDetailSerializer, UserLeavingMsgSerializer
 from utils.permissions import IsOwnerOrReadOnly
 
 
@@ -27,3 +27,13 @@ class UserFavViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.
 
     def get_queryset(self):
         return UserFav.objects.filter(user=self.request.user)
+
+
+class UserLeavingMsgViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.ListModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet):
+    pagination_class = None
+    authentication_classes = (JWTAuthentication, SessionAuthentication)
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
+    serializer_class = UserLeavingMsgSerializer
+
+    def get_queryset(self):
+        return UserLeavingMessage.objects.filter(user=self.request.user)
