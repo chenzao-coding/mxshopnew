@@ -26,7 +26,7 @@ from mxshopnew.settings import MEDIA_ROOT
 import xadmin
 from goods.views import GoodsListViewSet, GoodsCategoryViewSet
 from users.views import SmsCodeViewSet, UserViewSet
-from user_operation.views import UserFavViewSet, UserLeavingMsgViewSet
+from user_operation.views import UserFavViewSet, UserLeavingMsgViewSet, UserAddressViewSet
 # from goods.views_base import GoodsListView
 # from goods.views import GoodsListView2
 
@@ -40,6 +40,7 @@ router.register(r'code', SmsCodeViewSet, basename='code')
 router.register(r'users', UserViewSet, basename='user')
 router.register(r'userfavs', UserFavViewSet, basename='userfav')
 router.register(r'messages', UserLeavingMsgViewSet, basename='messages')
+router.register(r'address', UserAddressViewSet, basename='address')
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
