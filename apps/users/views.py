@@ -2,18 +2,19 @@
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth import get_user_model
 from django.db.models import Q
-from rest_framework.mixins import CreateModelMixin
+from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, UpdateModelMixin
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, permissions
+from rest_framework.authentication import SessionAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.authentication import JWTTokenUserAuthentication
 
 from .models import VerifyCode
-from .serializers import SmsSerializer, UserMobileRegSerializer
+from .serializers import SmsSerializer, UserMobileRegSerializer, UserDetailSerializer
 from utils.yunpian import YunPian
 from utils.random_str import generate_random
 from mxshopnew.settings import YUNPIAN_APIKEY
-
 
 
 User = get_user_model()
@@ -62,9 +63,27 @@ class SmsCodeViewSet(CreateModelMixin, GenericViewSet):
             }, status=status.HTTP_201_CREATED)
 
 
-class UserViewSet(CreateModelMixin, GenericViewSet):
+class UserViewSet(CreateModelMixin, UpdateModelMixin, RetrieveModelMixin, GenericViewSet):
     serializer_class = UserMobileRegSerializer
     queryset = User.objects.all()
+    authentication_classes = (JWTTokenUserAuthentication, SessionAuthentication)
+    permission_classes = (permissions.IsAuthenticated,)
+
+    # 重载 get_serializer_class 动态配置各个action的序列化类
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return UserDetailSerializer
+        elif self.action == 'create':
+            return UserMobileRegSerializer
+        return UserDetailSerializer
+
+    # 重载 get_permissions 动态配置各个状态的权限
+    def get_permissions(self):
+        if self.action == 'retrieve':
+            return [permissions.IsAuthenticated()]
+        elif self.action == 'create':
+            return [permissions.AllowAny()]
+        return [permissions.AllowAny()]
 
     # 注册完成，默认登录，重载 create 函数
     def create(self, request, *args, **kwargs):
