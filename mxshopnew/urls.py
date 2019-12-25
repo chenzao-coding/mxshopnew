@@ -27,6 +27,7 @@ import xadmin
 from goods.views import GoodsListViewSet, GoodsCategoryViewSet
 from users.views import SmsCodeViewSet, UserViewSet
 from user_operation.views import UserFavViewSet, UserLeavingMsgViewSet, UserAddressViewSet
+from trade.views import ShoppingCartViewSet
 # from goods.views_base import GoodsListView
 # from goods.views import GoodsListView2
 
@@ -41,6 +42,7 @@ router.register(r'users', UserViewSet, basename='user')
 router.register(r'userfavs', UserFavViewSet, basename='userfav')
 router.register(r'messages', UserLeavingMsgViewSet, basename='messages')
 router.register(r'address', UserAddressViewSet, basename='address')
+router.register(r'shopcarts', ShoppingCartViewSet, basename='shopcarts')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
