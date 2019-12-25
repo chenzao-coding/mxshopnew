@@ -5,7 +5,7 @@
 # Desc:
 from rest_framework import serializers
 
-from .models import ShoppingCart
+from .models import ShoppingCart, OrderInfo, OrderGoods
 from goods.models import Goods
 from goods.serializers import GoodsSerializer
 
@@ -45,4 +45,48 @@ class ShoppingCartDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ShoppingCart
+        fields = '__all__'
+
+
+class OrderInfoSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    order_sn = serializers.CharField(read_only=True)
+    nonce_str = serializers.CharField(read_only=True)
+    trade_no = serializers.CharField(read_only=True)
+    pay_status = serializers.CharField(read_only=True)
+    pay_type = serializers.CharField(read_only=True)
+    pay_time = serializers.DateTimeField(read_only=True)
+    index = serializers.IntegerField(read_only=True)
+
+    def generate_order_sn(self):
+        # 生成订单号 时间+userid+随机数
+        import time
+        import random
+        order_sn = '{time_str}{user_id}{random_str}'.format(time_str=time.strftime('%Y%m%d%H%M%S'), user_id=self.context['request'].user.id, random_str=random.randint(10, 99))
+        return order_sn
+
+    def validate(self, attrs):
+        attrs['order_sn'] = self.generate_order_sn()
+        return attrs
+
+    class Meta:
+        model = OrderInfo
+        fields = '__all__'
+
+
+class OrderGoodsSerializer(serializers.ModelSerializer):
+    # 根据 OrderGoods 的属性 goods 查出商品详情
+    goods = GoodsSerializer(many=False)
+
+    class Meta:
+        model = OrderGoods
+        fields = '__all__'
+
+
+class OrderInfoDetailSerializer(serializers.ModelSerializer):
+    # 使用 OrderGoods 的外键 order 反向查出有所有商品
+    goods = OrderGoodsSerializer(many=True)
+
+    class Meta:
+        model = OrderInfo
         fields = '__all__'

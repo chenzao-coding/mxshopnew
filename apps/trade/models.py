@@ -45,7 +45,7 @@ class OrderInfo(BaseModel):
     # unique 订单号唯一
     order_sn = models.CharField(max_length=30, null=True, blank=True, unique=True, verbose_name='订单编号')
     # 微信支付可能会用到
-    nonce_str = models.CharField(max_length=50, null=True, blank=True, unique=True, verbose_name='随机加密串')
+    nonce_str = models.CharField(max_length=50, null=True, blank=True, unique=True, verbose_name='微信随机加密串')
     # 支付宝支付时的交易号与本系统进行关联
     trade_no = models.CharField(max_length=100, null=True, blank=True, unique=True, verbose_name='交易号')
     # 以防用户支付到一半不支付了
