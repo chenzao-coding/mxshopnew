@@ -53,15 +53,15 @@ class UserMobileRegSerializer(serializers.ModelSerializer):
                                      label='用户名')
     password = serializers.CharField(style={'input_type': 'password'}, write_only=True, label='密码')
 
-    # def create(self, validated_data):
-    #     """
-    #     重载 serializer 的 create 方法，将明文的密码加密存入数据库
-    #     如果不想在此处重载create方法，也可以通过监听 django 信号量 post_save 的方式修改密码
-    #     """
-    #     user = super(UserMobileRegSerializer, self).create(validated_data=validated_data)
-    #     user.set_password(validated_data['password'])
-    #     user.save()
-    #     return user
+    def create(self, validated_data):
+        """
+        重载 serializer 的 create 方法，将明文的密码加密存入数据库
+        如果不想在此处重载create方法，也可以通过监听 django 信号量 post_save 的方式修改密码
+        """
+        user = super(UserMobileRegSerializer, self).create(validated_data=validated_data)
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
 
     def validate_code(self, code):
         record_code = VerifyCode.objects.filter(mobile=self.initial_data['username']).order_by('-add_time')
