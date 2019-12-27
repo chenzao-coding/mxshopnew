@@ -23,6 +23,30 @@ class ShoppingCartViewSet(mixins.CreateModelMixin, mixins.ListModelMixin, mixins
     # 设置 goods_id 做为查询详情，删除、修改时匹配的id
     lookup_field = 'goods_id'
 
+    def perform_create(self, serializer):
+        # 新增一个商品到购物车，商品库存数就相应减少
+        shop_cart = serializer.save()
+        goods = shop_cart.goods
+        goods.goods_num -= shop_cart.nums
+        goods.save()
+
+    def perform_destroy(self, instance):
+        # 删除购物车商品的时候，商品库存数相应增加
+        goods = instance.goods
+        goods.goods_num += instance.nums
+        goods.save()
+        instance.delete()
+
+    def perform_update(self, serializer):
+        # 修改购物车数量的时候，商品库存数相应修改
+        # 1. 获取修改前数据库中的值
+        existed_record = ShoppingCart.objects.get(id=serializer.id)
+        existed_nums = existed_record.nums
+        saved_record = serializer.save()
+        goods = saved_record.goods
+        goods.goods_num -= (saved_record.nums - existed_nums)
+        goods.save()
+
     def get_serializer_class(self):
         if self.action == 'retrieve' or self.action == 'list':
             return ShoppingCartDetailSerializer
