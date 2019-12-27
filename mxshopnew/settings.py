@@ -156,6 +156,9 @@ AUTHENTICATION_BACKENDS = (
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
 # 配置media文件路径
 MEDIA_URL = '/media/'
@@ -208,3 +211,10 @@ SIMPLE_JWT = {
 REGEX_MOBILE = '^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(17[0,3,5-8])|(18[0-9])|166|198|199|(147))\d{8}$'
 # 云片网 APIKEY
 YUNPIAN_APIKEY = 'd6c4ddbf50ab36611d2f52041a0b949e'
+# 支付宝配置参数
+ALI_PUB_KEY_PATH = os.path.join(BASE_DIR, 'apps/trade/keys/alipay_key_2048.txt')
+PRIVATE_KEY_PATH = os.path.join(BASE_DIR, 'apps/trade/keys/private_2048.txt')
+ALI_APP_ID = '2016101500692292'
+ALI_NOTIFY_URL = 'http://127.0.0.1:8000/alipay/return/'
+ALI_RETURN_URL = 'http://127.0.0.1:8000/alipay/return/'
+ALI_Test_DEBUG = True

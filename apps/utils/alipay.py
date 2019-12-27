@@ -132,7 +132,7 @@ if __name__ == "__main__":
 
 
     alipay = AliPay(
-        appid="",
+        appid="2016101500692292",
         app_notify_url="http://127.0.0.1:8000/alipay/return/",
         app_private_key_path="../trade/keys/private_2048.txt",
         alipay_public_key_path="../trade/keys/alipay_key_2048.txt",  # 支付宝的公钥，验证支付宝回传消息使用，不是你自己的公钥,

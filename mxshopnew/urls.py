@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.conf.urls import url, include
 from django.urls import path
 from django.views.static import serve
+from django.views.generic import TemplateView
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
@@ -27,7 +28,7 @@ import xadmin
 from goods.views import GoodsListViewSet, GoodsCategoryViewSet
 from users.views import SmsCodeViewSet, UserViewSet
 from user_operation.views import UserFavViewSet, UserLeavingMsgViewSet, UserAddressViewSet
-from trade.views import ShoppingCartViewSet, OrderInfoViewSet
+from trade.views import ShoppingCartViewSet, OrderInfoViewSet, AliPayView
 # from goods.views_base import GoodsListView
 # from goods.views import GoodsListView2
 
@@ -60,6 +61,11 @@ urlpatterns = [
     # 由于这里的登录默认是使用 username 来登录的，如果需要手机号也能登录需要自定义
     path('login/', TokenObtainPairView.as_view(), name='login'),
     path('login/refresh/', TokenRefreshView.as_view(), name='login_refresh'),
+
+    # Alipay 回调和return_url 接口
+    url(r'^alipay/return/', AliPayView.as_view(), name='alipay'),
+
+    url(r'^index/', TemplateView.as_view(template_name='index.html'))
 
     # DRF token 认证
     # url(r'^api-token-auth/', views.obtain_auth_token),
