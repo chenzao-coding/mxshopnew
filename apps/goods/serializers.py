@@ -3,7 +3,7 @@
 # @time: 2019-12-20 21:04
 # Desc: 
 from rest_framework import serializers
-from .models import Goods, GoodsCategory, GoodsImage
+from .models import Goods, GoodsCategory, GoodsImage, Banner
 
 
 class GoodsSerializer2(serializers.Serializer):
@@ -58,4 +58,7 @@ class GoodsSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-
+class BannerGoodsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Banner
+        fields = '__all__'

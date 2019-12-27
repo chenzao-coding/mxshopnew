@@ -9,8 +9,8 @@ from rest_framework import filters
 # from rest_framework.authentication import TokenAuthentication
 from django_filters.rest_framework import DjangoFilterBackend
 
-from .models import Goods, GoodsCategory
-from .serializers import GoodsSerializer, CategorySerializer
+from .models import Goods, GoodsCategory, Banner
+from .serializers import GoodsSerializer, CategorySerializer, BannerGoodsSerializer
 from .filters import GoodsFilter
 
 
@@ -90,7 +90,7 @@ class GoodsListViewSet22(mixins.ListModelMixin, viewsets.GenericViewSet):
         return queryset
 
 
-class GoodsListViewSet (mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class GoodsListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     queryset = Goods.objects.all().order_by('add_time')
     serializer_class = GoodsSerializer
     pagination_class = GoodsResultsSetPagination
@@ -104,7 +104,7 @@ class GoodsListViewSet (mixins.ListModelMixin, mixins.RetrieveModelMixin, viewse
     ordering_fields = ['sold_num', 'shop_price']
 
 
-class GoodsCategoryViewSet (mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class GoodsCategoryViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """
     list:
         获取商品列表
@@ -113,3 +113,9 @@ class GoodsCategoryViewSet (mixins.ListModelMixin, mixins.RetrieveModelMixin, vi
     serializer_class = CategorySerializer
     pagination_class = None
     # authentication_classes = (TokenAuthentication, )
+
+
+class BannerGoodsViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    pagination_class = None
+    queryset = Banner.objects.all().order_by('index')
+    serializer_class = BannerGoodsSerializer
