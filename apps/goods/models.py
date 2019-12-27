@@ -122,7 +122,7 @@ class Banner(BaseModel):
 
 class IndexAd(BaseModel):
     """
-    首页类别标签右边展示的七个商品广告
+    首页类别标签右边展示的商品广告
     """
     category = models.ForeignKey(GoodsCategory, on_delete=models.CASCADE, verbose_name='商品类别',
                                  related_name='category')

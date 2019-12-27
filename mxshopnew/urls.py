@@ -25,7 +25,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from mxshopnew.settings import MEDIA_ROOT
 import xadmin
-from goods.views import GoodsListViewSet, GoodsCategoryViewSet, BannerGoodsViewSet
+from goods.views import GoodsListViewSet, GoodsCategoryViewSet, BannerGoodsViewSet, IndexCategoryViewSet
 from users.views import SmsCodeViewSet, UserViewSet
 from user_operation.views import UserFavViewSet, UserLeavingMsgViewSet, UserAddressViewSet
 from trade.views import ShoppingCartViewSet, OrderInfoViewSet, AliPayView
@@ -46,6 +46,8 @@ router.register(r'address', UserAddressViewSet, basename='address')
 router.register(r'shopcarts', ShoppingCartViewSet, basename='shopcarts')
 router.register(r'orders', OrderInfoViewSet, basename='orders')
 router.register(r'banners', BannerGoodsViewSet, basename='banners')
+# 首页商品系列数据
+router.register(r'indexgoods', IndexCategoryViewSet, basename='indexgoods')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

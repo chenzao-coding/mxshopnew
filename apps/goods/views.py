@@ -10,7 +10,7 @@ from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Goods, GoodsCategory, Banner
-from .serializers import GoodsSerializer, CategorySerializer, BannerGoodsSerializer
+from .serializers import GoodsSerializer, CategorySerializer, BannerGoodsSerializer, IndexCategorySerializer
 from .filters import GoodsFilter
 
 
@@ -119,3 +119,12 @@ class BannerGoodsViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, views
     pagination_class = None
     queryset = Banner.objects.all().order_by('index')
     serializer_class = BannerGoodsSerializer
+
+
+class IndexCategoryViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    """
+    首页商品分类数据
+    """
+    pagination_class = None
+    queryset = GoodsCategory.objects.filter(is_tab=True)
+    serializer_class = IndexCategorySerializer
